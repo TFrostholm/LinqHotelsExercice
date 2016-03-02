@@ -82,22 +82,92 @@ namespace LinqHotelsExercice
             //Exercise, use LINQ to retrive the following information about Hotels and Rooms:
 
             // 1) List full details of all Hotels:
+            var allHotels =
+                from hotel in hotels
+                select hotel;
+
+            Console.WriteLine("Full details of all hotels:");
+            foreach (var hotel in allHotels)
+            {
+                Console.WriteLine("{0}, {1}, {2}", hotel.HotelNo, hotel.Name, hotel.Address);
+            }
+            Console.WriteLine("");
+
 
             // 2) List full details of all hotels in Roskilde:
+            var detailsRoskilde =
+                from hotel in hotels
+                where hotel.Address.Contains("Roskilde")
+                select hotel;
+
+            Console.WriteLine("Full details of hotels in Roskilde:");
+            foreach (var hotel in detailsRoskilde)
+            {
+                Console.WriteLine("{0}, {1}, {2}", hotel.HotelNo, hotel.Name, hotel.Address);
+            }
+            Console.WriteLine("");
+
 
             // 3) List the names of all hotels in Roskilde:
+            IEnumerable<string> hotelRoskilde =
+                from hotel in hotels
+                where hotel.Address.Contains("Roskilde")
+                select hotel.Name;
+
+            Console.WriteLine("Hotels in Roskilde:");
+            foreach (string hotel in hotelRoskilde)
+            {
+                Console.WriteLine(hotel);
+            }
+            Console.WriteLine("");
+
 
             // 4) List all double rooms with a price below 400 pr night:
-
+            
             // 5) List all double or family rooms with a price below 400 pr night in ascending order of price:
 
             // 6) List all hotels that starts with 'P':
+            var hotelsWithP =
+                from hotel in hotels
+                where hotel.Name.StartsWith("P")
+                select hotel.Name;
+
+            Console.WriteLine("Hotels that starts with 'P':");
+            foreach (string hotel in hotelsWithP)
+            {
+                Console.WriteLine(hotel);
+            }
+            Console.WriteLine("");
 
             // 7) List the number of hotels:
+            var numberOfHotels =
+                from hotel in hotels
+                select hotel;
+
+            Console.WriteLine("Total number of hotels:");
+            Console.WriteLine("{0}", numberOfHotels.Count());
+            Console.WriteLine("");
 
             // 8) List the number of hotels in Roskilde:
+            var numberOfHotelsRoskilde =
+                from hotel in hotels
+                where hotel.Address.Contains("Roskilde")
+                select hotel.Name;
+
+            Console.WriteLine("Number of hotels in Roskilde");
+            Console.WriteLine("{0}", numberOfHotelsRoskilde.Count());
+            Console.WriteLine("");
 
             // 9) what is the avarage price of a room:
+            var averagePriceOfOneRoom =
+                from room in rooms
+                let totalPrice = room.Price
+                select totalPrice;
+
+            double averagePrice = averagePriceOfOneRoom.Average();
+            Console.WriteLine("The average price of a room is:");
+            Console.WriteLine("{0}", averagePrice);
+            Console.WriteLine("");
 
             //10) what is the avarage price of a room at Hotel Scandic:
 
@@ -107,6 +177,7 @@ namespace LinqHotelsExercice
 
             //13) List distinct price and type of all rooms at Hotel Prindsen:
 
+            Console.ReadKey();
         }
     }
 }
