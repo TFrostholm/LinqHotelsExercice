@@ -123,8 +123,31 @@ namespace LinqHotelsExercice
 
 
             // 4) List all double rooms with a price below 400 pr night:
-            
+            var doubleRoomsBelow400 =
+                from room in rooms
+                where room.Types == 'D' && room.Price < 400
+                select room;
+
+            Console.WriteLine("Double rooms with a price below 400:");
+            foreach (var room in doubleRoomsBelow400)
+            {
+                Console.WriteLine("Room number: {0} from {1}", room.RoomNo, room.Hotel.Name);
+            }
+            Console.WriteLine("");
+
             // 5) List all double or family rooms with a price below 400 pr night in ascending order of price:
+            var familyRoomBelow400 =
+                from room in rooms
+                where room.Types == 'F' && room.Price < 400
+                orderby room.Price ascending
+                select room;
+
+            Console.WriteLine("Family rooms with a price below 400 in ascending order:");
+            foreach (var room in familyRoomBelow400)
+            {
+                Console.WriteLine("Room number: {0} in {1} which costs {2}", room.RoomNo, room.Hotel.Name, room.Price);
+            }
+            Console.WriteLine("");
 
             // 6) List all hotels that starts with 'P':
             var hotelsWithP =
@@ -164,18 +187,67 @@ namespace LinqHotelsExercice
                 let totalPrice = room.Price
                 select totalPrice;
 
-            double averagePrice = averagePriceOfOneRoom.Average();
+            double totalAveragePrice = averagePriceOfOneRoom.Average();
             Console.WriteLine("The average price of a room is:");
-            Console.WriteLine("{0}", averagePrice);
+            Console.WriteLine("{0}", totalAveragePrice);
             Console.WriteLine("");
 
             //10) what is the avarage price of a room at Hotel Scandic:
+            var averagePriceAtScandic =
+                from room in rooms
+                where room.Hotel.HotelNo == 7
+                let totalPrice = room.Price
+                select totalPrice;
+
+            double averagePrice = averagePriceAtScandic.Average();
+            Console.WriteLine("The average price of a room at Hotel Scandic is:");
+            Console.WriteLine("{0}", averagePrice);
+            Console.WriteLine("");
 
             //11) what is the total reveneue per night from all double rooms:
+            var totalRevenuePerNight =
+                from room in rooms
+                where room.Types == 'D'
+                select room.Price;
+
+            double totalRevenue = 0;
+            Console.WriteLine("Total revenue per night from all double rooms is:");
+
+            foreach (var i in totalRevenuePerNight)
+            {
+                totalRevenue += i;
+            }
+            Console.WriteLine(totalRevenue);
 
             //12) List price and type of all rooms at Hotel Prindsen:
+            var priceAndTypePrindsen =
+                from room in rooms
+                where room.Hotel.HotelNo == 6
+                select room;
+
+            Console.WriteLine("\nType and price of all rooms at Hotel Prindsen:");
+            foreach (var room in priceAndTypePrindsen)
+            {
+                Console.WriteLine("Roomnumber: {0}, Type: {1} costs: {2}", room.RoomNo, room.Types, room.Price);
+            }
 
             //13) List distinct price and type of all rooms at Hotel Prindsen:
+            var priceAndTypePrindsenDistinct =
+                from room in rooms
+                where room.Hotel.HotelNo == 6
+                select new
+                {
+                    room.Price,
+                    room.Types
+                };
+
+            priceAndTypePrindsenDistinct = priceAndTypePrindsenDistinct.Distinct();
+
+            foreach (var room in priceAndTypePrindsenDistinct)
+            {
+                Console.WriteLine("Type: {0} costs: {1}", room.Types, room.Price);
+            }
+
 
             Console.ReadKey();
         }
